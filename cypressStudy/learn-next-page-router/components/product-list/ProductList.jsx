@@ -1,37 +1,45 @@
-import { fetchProducts } from '@/api';
-import React, { useEffect, useState } from 'react';
-import styles from './ProductList.module.css';
-import Image from 'next/image';
-import Link from 'next/link';
+import axios from "axios";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import styles from "./ProductList.module.css";
+import Link from "next/link";
+import { fetchProducts } from "@/api";
+// import { fetchProducts } from '@/api/index';
 
 function ProductList() {
-	const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState();
 
-	useEffect(() => {
-		fetchProducts().then(res => {
-			setProducts(res.data);
-		});
-	}, []);
+  useEffect(() => {
+    fetchProducts().then((response) => {
+      setProducts(response.data);
+    });
+  }, []);
 
-	return (
-		<div>
-			<ul className={styles.container}>
-				{products &&
-					products.map(({ imageUrl, name, id }, index) => {
-						return (
-							<li className={styles.item} key={index}>
-								<Link href={`/products/${id}`}>
-									<div>
-										<Image src={imageUrl} width={300} height={300} alt={name} />
-									</div>
-									<div>{name}</div>
-								</Link>
-							</li>
-						);
-					})}
-			</ul>
-		</div>
-	);
+  console.log(products);
+
+  return (
+    <ul>
+      {products &&
+        products.map((product) => {
+          return (
+            <li data-cy="product-item" key={product.id} className={styles.item}>
+              <Link href={`/products/${product.id}`}>
+                <div>
+                  {/* <img src="" alt="" /> */}
+                  <Image
+                    src={product.imageUrl}
+                    width={300}
+                    height={250}
+                    alt={product.name}
+                  ></Image>
+                </div>
+                <div>{product.name}</div>
+              </Link>
+            </li>
+          );
+        })}
+    </ul>
+  );
 }
 
 export default ProductList;

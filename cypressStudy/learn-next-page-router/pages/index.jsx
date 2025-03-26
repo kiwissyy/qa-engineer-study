@@ -28,11 +28,16 @@ function Counter() {
   );
 }
 
-// '/'에 해당하는 페이지 컴포넌트
+// 'http://localhost:3000'에 해당하는 페이지 컴포넌트
 function ProductPage() {
   const headerTitle = "상품 목록 페이지";
 
-  return <Counter></Counter>;
+  return (
+    <div>
+      <ProductHeader title={headerTitle}></ProductHeader>
+      <ProductList></ProductList>
+    </div>
+  );
 }
 
 /**
